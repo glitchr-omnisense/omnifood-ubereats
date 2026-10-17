@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-composer require glitchr/omnifood omnifood/ubereats
+composer require omniscient/omnifood omnifood/ubereats
 ```
 
 ## Configuration

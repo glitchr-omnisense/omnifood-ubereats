@@ -1,6 +1,6 @@
 # omnifood/ubereats
 
-Uber Eats for [glitchr/omnifood](https://github.com/glitchr-studio/omnifood): the store's orders
+Uber Eats for [omniscient/omnifood](https://github.com/glitchr-studio/omnifood): the store's orders
 read, accepted, denied, marked ready and cancelled, its menu uploaded and its items suspended, the
 store paused and its holiday hours, the webhooks checked, and the merchant's consent to link the
 store - through the Uber Eats Marketplace APIs (Order Fulfillment API Suite, Store API Suite, Menu
