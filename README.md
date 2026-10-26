@@ -1,6 +1,6 @@
 # omnifood/ubereats
 
-Uber Eats for [omniscient/omnifood](https://github.com/glitchr-studio/omnifood): the store's orders
+Uber Eats for [omnisense/omnifood](https://github.com/glitchr-omnisense/omnifood): the store's orders
 read, accepted, denied, marked ready and cancelled, its menu uploaded and its items suspended, the
 store paused and its holiday hours, the webhooks checked, and the merchant's consent to link the
 store - through the Uber Eats Marketplace APIs (Order Fulfillment API Suite, Store API Suite, Menu
@@ -24,7 +24,7 @@ $ubereats = (new UberEatsPlatformFactory(HttpClient::create()))->create([
 
 Plain PHP, no framework needed: the factory takes any `HttpClientInterface` - the application's, a
 `MockHttpClient` in a test - and makes its own when given none. In a Symfony application, the same
-options under `omnifood.platforms` ([the bundle](https://github.com/glitchr-studio/omnifood/blob/1.x/docs/symfony.md)):
+options under `omnifood.platforms` ([the bundle](https://github.com/glitchr-omnisense/omnifood/blob/1.x/docs/symfony.md)):
 
 ```yaml
 omnifood:
