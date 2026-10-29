@@ -62,7 +62,7 @@ Uber publishes no shared test account.
 | `store_id` | string | - | for `orders()`, the menu and the store | the store's id at Uber |
 | `scopes` | list, or a string split on spaces and commas | `eats.store eats.order eats.store.orders.read eats.store.status.write` | no | the client-credentials token's scopes |
 | `access_token` | string | - | no | a token kept by the site |
-| `token_expires_at` | string (a date, ATOM) | - | no | when that token dies |
+| `token_expires_at` | string (a date, ATOM) | - | no | when that token dies; a date PHP cannot read is an `InvalidConfigException` |
 | `language` | string | `en_us` | no | the key of the menu's translations |
 | `tax_inclusive` | bool | `true` | no | `true`: items carry `vat_rate_percentage` (prices include VAT); `false`: `tax_rate` |
 | `sandbox` | bool | `false` | no | the test API and the sandbox login |
@@ -235,14 +235,11 @@ Not run live (no keys); the calls above are those the package's tests check on r
   as `providerCode`.
 - A network failure: `ProviderException` `Uber could not be reached: ...`, the HTTP client's
   exception as the previous one.
+- A 2xx answer whose body is not JSON (a proxy's or a maintenance page): `ProviderException`
+  `An answer that is not JSON (HTTP 200).`, with the status.
 - A token answer without `access_token`: `ProviderException` `No token in Uber's answer.`
 - A webhook whose signature does not match, or whose body is not JSON: `InvalidSignatureException`;
   no `client_secret`: `InvalidConfigException`.
-
-> [!WARNING]
-> Known defect: a 2xx answer whose body is not JSON is read as an empty answer, where a
-> `ProviderException` is expected: `order()` then returns an `Order` with an empty reference and
-> the status `unknown`, with a PHP warning, and `status()` answers `UNKNOWN`.
 
 ## Verified, and not
 

@@ -3,6 +3,7 @@
 namespace Omnifood\UberEats;
 
 use Omnifood\Config;
+use Omnifood\Exception\InvalidConfigException;
 use Omnifood\Model\Token;
 use Omnifood\PlatformFactory;
 use Omnifood\PlatformInterface;
@@ -48,7 +49,7 @@ final class UberEatsPlatformFactory extends PlatformFactory
     {
         $sandbox = filter_var($config['sandbox'], \FILTER_VALIDATE_BOOL);
         $str = static fn (string $key) => $config[$key] ? (string) $config[$key] : null;
-        $token = $str('access_token') ? new Token((string) $config['access_token'], $str('token_expires_at') ? new \DateTimeImmutable((string) $config['token_expires_at']) : null) : null;
+        $token = $str('access_token') ? new Token((string) $config['access_token'], $str('token_expires_at') ? self::expiry((string) $config['token_expires_at']) : null) : null;
         $scopes = \is_array($config['scopes']) ? array_values($config['scopes']) : array_values(array_filter(preg_split('/[\s,]+/', (string) $config['scopes']) ?: []));
 
         return new UberEatsPlatform(
@@ -58,5 +59,14 @@ final class UberEatsPlatformFactory extends PlatformFactory
             (string) $config['language'],
             filter_var($config['tax_inclusive'], \FILTER_VALIDATE_BOOL),
         );
+    }
+
+    private static function expiry(string $value): \DateTimeImmutable
+    {
+        try {
+            return new \DateTimeImmutable($value);
+        } catch (\Exception $e) {
+            throw new InvalidConfigException(\sprintf('The "ubereats" platform\'s token_expires_at "%s" is not a date.', $value), 0, $e);
+        }
     }
 }

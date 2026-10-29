@@ -288,6 +288,21 @@ final class UberEatsPlatformTest extends TestCase
         self::assertSame('test-api.uber.com/v1/delivery/order/o-1/ready', $this->calls[1][1]);
     }
 
+    /** A 2xx whose body is not JSON (a proxy's page) is not an empty answer. */
+    public function testAnAnswerThatIsNotJsonIsAnError(): void
+    {
+        $this->expectException(ProviderException::class);
+        $this->expectExceptionMessage('[ubereats] An answer that is not JSON (HTTP 200).');
+        $this->platform([], static fn () => new MockResponse('<html><body>502 Bad Gateway</body></html>', ['http_code' => 200, 'response_headers' => ['Content-Type: text/html']]))->order('o-1');
+    }
+
+    public function testATokenExpiryItCannotReadIsAnInvalidConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('The "ubereats" platform\'s token_expires_at "soon" is not a date.');
+        $this->platform(['access_token' => 'KA.x', 'token_expires_at' => 'soon']);
+    }
+
     public function testErrorsAreMapped(): void
     {
         try {
