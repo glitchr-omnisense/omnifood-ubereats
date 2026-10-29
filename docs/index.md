@@ -233,13 +233,19 @@ Not run live (no keys); the calls above are those the package's tests check on r
 - Any other status of 400 or more: `ProviderException` with Uber's `message` (or the OAuth
   `error_description`, or `HTTP <status>.`), `status`, and Uber's `code` (or the OAuth `error`)
   as `providerCode`.
-- A network failure: `ProviderException` `Uber could not be reached: ...`, the HTTP client's
-  exception as the previous one.
+- A network failure: `ProviderException` `Uber could not be reached: ...`, a copy of the HTTP
+  client's exception as the previous one.
 - A 2xx answer whose body is not JSON (a proxy's or a maintenance page): `ProviderException`
   `An answer that is not JSON (HTTP 200).`, with the status.
 - A token answer without `access_token`: `ProviderException` `No token in Uber's answer.`
 - A webhook whose signature does not match, or whose body is not JSON: `InvalidSignatureException`;
   no `client_secret`: `InvalidConfigException`.
+
+No failure carries the client secret and the tokens: a network failure's message has them masked as
+`***` (the key parameters of a URL too), its previous is a copy of the HTTP client's exception (the
+same class and code), and no trace of the chain keeps its arguments, where the request's options
+stood ([No secret in a
+failure](https://github.com/glitchr-omnisense/omnifood/blob/1.x/docs/errors.md#no-secret-in-a-failure)).
 
 ## Verified, and not
 
