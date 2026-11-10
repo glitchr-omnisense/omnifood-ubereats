@@ -2,11 +2,23 @@
     "name": "omnifood/ubereats",
     "type": "library",
     "description": "Omnifood Uber Eats: the orders (read, accepted, denied, ready, cancelled), the menu and its items suspended, the store paused and its holiday hours, the webhooks checked - through the Uber Eats Marketplace APIs.",
-    "keywords": ["restaurant", "delivery", "uber-eats", "ubereats", "omnifood"],
+    "keywords": [
+        "restaurant",
+        "delivery",
+        "uber-eats",
+        "ubereats",
+        "omnifood"
+    ],
     "license": "MIT",
-    "authors": [{"name": "Marco Meyer", "email": "marco.meyer@glitchr.io"}],
+    "authors": [
+        {
+            "name": "Marco Meyer",
+            "email": "marco.meyer@glitchr.io"
+        }
+    ],
     "require": {
         "php": ">=8.2",
+        "omnisense/contracts": "^1.0@dev",
         "omnisense/omnifood": "^1.0@dev",
         "symfony/http-client": "^6.4|^7.0|^8.0"
     },
@@ -14,11 +26,24 @@
         "phpunit/phpunit": "^11.0"
     },
     "autoload": {
-        "psr-4": {"Omnifood\\UberEats\\": ""},
-        "exclude-from-classmap": ["/Tests/"]
+        "psr-4": {
+            "Omnifood\\UberEats\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "autoload-dev": {
-        "psr-4": {"Omnifood\\UberEats\\Tests\\": "Tests/"}
+        "psr-4": {
+            "Omnifood\\UberEats\\Tests\\": "Tests/"
+        }
     },
-    "config": {"sort-packages": true}
+    "extra": {
+        "omnisense": {
+            "policy": "policy.json"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
 }

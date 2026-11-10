@@ -53,7 +53,7 @@ final class UberEatsPlatformFactory extends PlatformFactory
         $scopes = \is_array($config['scopes']) ? array_values($config['scopes']) : array_values(array_filter(preg_split('/[\s,]+/', (string) $config['scopes']) ?: []));
 
         return new UberEatsPlatform(
-            new Api($str('client_id'), $str('client_secret'), $token, $scopes, $str('base_uri') ?? ($sandbox ? Api::SANDBOX_BASE_URI : Api::BASE_URI), $str('token_url') ?? ($sandbox ? Api::SANDBOX_TOKEN_URL : Api::TOKEN_URL), $this->http),
+            new Api($str('client_id'), $str('client_secret'), $token, $scopes, $str('base_uri') ?? ($sandbox ? Api::SANDBOX_BASE_URI : Api::BASE_URI), $str('token_url') ?? ($sandbox ? Api::SANDBOX_TOKEN_URL : Api::TOKEN_URL), $this->http, $config->backoff()),
             $str('store_id'),
             $str('client_secret'),
             (string) $config['language'],

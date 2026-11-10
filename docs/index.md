@@ -226,6 +226,16 @@ omnifood:
 
 Not run live (no keys); the calls above are those the package's tests check on recorded answers.
 
+## Usage policy
+
+`policy.json` (named in `composer.json`'s `extra.omnisense.policy`, read 2026-11-10) declares
+the access contract-only (the Marketplace APIs' scopes need Uber's written approval) and one
+published limit: 100 client-credentials token requests an hour (`refresh`); Uber publishes none
+for the orders, the store and the menu, and may limit calls at any time. A 429 is a
+`RateLimitedException`, never retried, and Uber's next calls wait for its `Retry-After`, unsent.
+Uber offers no idempotency key on `accept_pos_order`, `deny_pos_order` or `cancel`: each is sent
+once, the HTTP client's retries off. See omnisense/omnifood's [Usage policies and rate limits](https://github.com/glitchr-omnisense/omnifood/blob/1.x/docs/policies.md).
+
 ## Errors
 
 - 401 and 403: `UnauthorizedException` (the keys, a scope Uber has not granted).

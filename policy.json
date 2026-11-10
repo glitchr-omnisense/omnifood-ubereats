@@ -1,0 +1,48 @@
+{
+    "$schema": "https://github.com/glitchr-omnisense/contracts/blob/1.x/resources/usage-policy.schema.json",
+    "provider": "ubereats",
+    "rateLimits": [
+        {
+            "max": 100,
+            "window": "hour",
+            "scope": "key",
+            "operations": [
+                "refresh"
+            ],
+            "note": "Client-credentials token requests (auth.uber.com/oauth/v2/token): 100 an hour, the 101st answered 429, and past 100 tokens a new one invalidates the oldest. The Api keeps its token (30 days) and asks for one only when it dies, inside whatever call needs it: refresh() is the only operation that asks on purpose."
+        }
+    ],
+    "concurrency": null,
+    "rights": {
+        "commercial": "contract",
+        "openSourceRequired": false,
+        "caching": {
+            "permission": "contract",
+            "maxTtl": null
+        },
+        "storage": "contract",
+        "redistribution": "forbidden",
+        "attribution": {
+            "required": false,
+            "text": null,
+            "url": null,
+            "where": []
+        },
+        "licence": null
+    },
+    "requirements": {
+        "key": true,
+        "userAgent": {
+            "required": false,
+            "pattern": null
+        }
+    },
+    "provenance": {
+        "terms": "https://www.uber.com/ca/en/legal/uber-eats-api-terms-of-use/",
+        "policy": "https://developer.uber.com/docs/eats/guides/authentication",
+        "contact": "https://developer.uber.com/docs/eats/introduction",
+        "notes": "Contract-only: the Marketplace APIs' scopes need Uber's written approval (\"Access to These APIs May Require Written Approval From Uber\"; the partner manager). The Uber Eats API Terms of Use (last updated 2021-01-29) let Uber limit the number or nature of calls at any time and forbid circumventing a limit without its written approval; no figure is published for the order, store and menu endpoints (the platform-wide 500 requests per 5 seconds of developer.uber.com/docs/rate-limiting is not the Eats APIs' and is not declared). Uber Data and cached content are deleted when the access ends; non-public user content is not shared with third parties without the user's consent (redistribution forbidden); Uber's marks only with its written permission. No idempotency key on the order endpoints (accept_pos_order, deny_pos_order, cancel...): Omnifood sends each once, never retried.",
+        "verifiedAt": "2026-11-10",
+        "declaredBy": "maintainer"
+    }
+}

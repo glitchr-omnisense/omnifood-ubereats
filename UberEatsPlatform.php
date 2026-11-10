@@ -33,6 +33,8 @@ use Omnifood\NotifiableInterface;
 use Omnifood\OrdersInterface;
 use Omnifood\StoreInterface;
 use Omnifood\Validator;
+use Omnisense\Contracts\Policy\DeclaresUsagePolicyInterface;
+use Omnisense\Contracts\Policy\UsagePolicy;
 
 /**
  * A store on Uber Eats, through the Marketplace APIs
@@ -47,8 +49,10 @@ use Omnifood\Validator;
  * 11.5 minutes, or Uber cancels it. Only the application that is the
  * store's order manager may accept, deny or cancel.
  */
-final class UberEatsPlatform implements OrdersInterface, MenuInterface, StoreInterface, NotifiableInterface, RefreshableInterface, OAuthInterface
+final class UberEatsPlatform implements OrdersInterface, MenuInterface, StoreInterface, NotifiableInterface, RefreshableInterface, OAuthInterface, DeclaresUsagePolicyInterface
 {
+    private static ?UsagePolicy $policy = null;
+
     public const AUTHORIZE_URL = 'https://auth.uber.com/oauth/v2/authorize';
     public const PROVISIONING_SCOPES = ['eats.pos_provisioning'];
 
@@ -64,6 +68,12 @@ final class UberEatsPlatform implements OrdersInterface, MenuInterface, StoreInt
         private readonly bool $taxInclusive = true,
         private readonly Validator $validator = new Validator(),
     ) {
+    }
+
+    /** Its usage policy, as the package declares it (policy.json, read once). */
+    public function usagePolicy(): UsagePolicy
+    {
+        return self::$policy ??= UsagePolicy::fromFile(__DIR__.'/policy.json');
     }
 
     public function getName(): string
