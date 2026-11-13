@@ -42,6 +42,18 @@ omnifood:
                 # access_token / token_expires_at: a token the site keeps (30 days; 100 requests an hour at most)
 ```
 
+## Install
+
+```sh
+composer require omnifood/ubereats
+```
+
+It requires `omnisense/omnifood` `^1.0`, installed with it. A real call needs: **an Uber Eats
+Marketplace APIs application** (client id and secret, the store id): Uber gives API access only to
+approved partners. The first call, with this package:
+[omnisense/omnifood](https://github.com/glitchr-omnisense/omnifood#install-and-a-first-call)'s
+README.
+
 ## What it does
 
 | Omnifood | Uber Eats |
